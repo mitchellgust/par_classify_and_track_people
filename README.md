@@ -1,29 +1,11 @@
-# README #
+# Velodyne
 
-This README would normally document whatever steps are necessary to get your application up and running.
+# Setting up Gazebo - 
 
-### What is this repository for? ###
+We can dummy up the Gazebo implementation for the VLP-16 by cloning https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/ into TheConstruct.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Clone the repository into the *aiil_workspace/noetic_workspace/src* then from *aiil_workspace/noetic_workspace* perform a catkin_make
 
-### How do I get set up? ###
+Once the package has been created you should be able to run the simulation using **roslaunch velodyne_description example.launch**
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+The vlp-16 publishes data to the /velodyne_points topic. As per the documentation this should be accurate Point2D Cloud data that the Panther velodyne publishes too.
