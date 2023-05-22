@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import rospy
-from sensor_msgs.msg import PointCloud2
-from std_msgs.msg import String
+from datetime import datetime
+from sensor_msgs import point_cloud2
+from sensor_msgs.msg import PointCloud2, PointField
+from std_msgs.msg import Header
 
 # Goals - 
 # 1. Register when object enters within a certain distance.
@@ -12,12 +14,25 @@ class InterpretVelodyne:
     def __init__(self):
         self.velodyne_subscriber = None
         self.last_update = 0
+        self.update_frequency_seconds = 10
 
     def interpret_point_cloud_2(self, point_cloud_data : PointCloud2):
         
-        # Time since last update.
-        print(point_cloud_data)
+        seconds_since_last_update = datetime.today().timestamp() - self.last_update
+
+        if seconds_since_last_update > self.update_frequency_seconds and point_cloud_data is not None:
+            
+            # Update time since last update.
+            self.last_update = datetime.today().timestamp()
+
+            for p in point_cloud2.read_points(point_cloud_data, field_names = ("x", "y", "z"), skip_nans=True):
+                print(f'x: {p[0]}, y: {p[1]}, z: {p[2]}')
+
+
+            
         
+
+
         # rospy.loginfo(len(multiArray.data))
 
         
@@ -56,8 +71,6 @@ class InterpretVelodyne:
     def execute(self):
         self.velodyne_subscriber = rospy.Subscriber('/velodyne_points', PointCloud2, self.interpret_point_cloud_2)
         rospy.spin()
-
-
 
 # Short ROS Node method
 if __name__ == '__main__':
