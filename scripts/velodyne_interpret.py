@@ -15,6 +15,7 @@ class InterpretVelodyne:
         self.velodyne_subscriber = None
         self.last_update = 0
         self.update_frequency_seconds = 10
+        self.filtered_point_cloud_publisher = rospy.Publisher('filtered_cloud', PointCloud2, queue_size=10)
 
     def interpret_point_cloud_2(self, point_cloud_data : PointCloud2):
         
@@ -22,48 +23,21 @@ class InterpretVelodyne:
 
         if seconds_since_last_update > self.update_frequency_seconds and point_cloud_data is not None:
             
+            # for p in filtered_cloud_point2:
+            #     print(f'x: {p[0]}, y: {p[1]}, z: {p[2]}')            
+            
             # Update time since last update.
             self.last_update = datetime.today().timestamp()
 
-            for p in point_cloud2.read_points(point_cloud_data, field_names = ("x", "y", "z"), skip_nans=True):
-                print(f'x: {p[0]}, y: {p[1]}, z: {p[2]}')
-
-
+            # Filter out points.
+            filtered_point_cloud_list = point_cloud2.read_points_list(point_cloud_data, field_names = ("x", "y", "z"), skip_nans=True)
             
-        
-
-
-        # rospy.loginfo(len(multiArray.data))
-
-        
-
-        # if len(multiArray.data) > 0:
-        #     id = multiArray.data[0]
-
-        #     # Determine if this is a new hazard marker. 
-        #     if self.hazardMarkers.__contains__(id):
-        #         if not self.foundMarkers.__contains__(id):
-
-        #             # if it's the start marker then publish the start command.
-        #             if id == self.START_MARKER:
-        #                 self.hazardPublisher.publish("start")
-        #                 subprocess.Popen("roslaunch first_pkg start_explore.launch", shell=True)
-        #                 self.foundMarkers.add(id)
-
-        #             elif (self.START_MARKER in self.foundMarkers or self.ignoreStartMarker):
-        #                 # Add the hazard marker. 
-        #                 self.foundMarkers.add(id)
-                        
-        #                 # use for testing. 
-        #                 self.hazardPublisher.publish("id identified: %.0f" % id)
-
-        #                 # Publish marker identification. 
-        #                 self.publishVisualMarker(id)
-
-        #             # if five markers (and the start marker) have been found then publish the return command.
-        #             if (not self.ignoreStartMarker and len(self.foundMarkers) >= 5) or (self.ignoreStartMarker and len(self.foundMarkers) >= 6):
-        #                 # publish return.
-        #                 self.hazardPublisher.publish("return")
+            # Recreate point cloud.
+            # header = Header()
+            header = point_cloud_data.header                        # Field names included in list.
+            filtered_point_cloud = point_cloud2.create_cloud_xyz32(header, filtered_point_cloud_list)
+            
+            self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
 
     """
     Start subsribers.
