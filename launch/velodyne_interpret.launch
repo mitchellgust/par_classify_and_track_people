@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="velodyne_interpret" pkg="first_pkg" type="velodyne_interpret.py" output="screen" >
+    </node>
+
+</launch>
