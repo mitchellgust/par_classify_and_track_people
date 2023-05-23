@@ -13,7 +13,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
     apt install -y vim ros-$ROS_DISTRO-joy && \
-    apt install ros-noetic-pcl-ros
+    apt install -y ros-noetic-pcl-ros
 
 ########################
 # Build software for RMIT Panther
