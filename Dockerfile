@@ -23,8 +23,8 @@ FROM rmit_panther_rosbase
 SHELL ["/bin/bash", "-c"]
 
 WORKDIR /ros_ws
-COPY ./noetic_workspace/src/rmit_joy2twist ./src/rmit_joy2twist
-COPY ./noetic_workspace/src/rmit_panther_coordinator ./src/rmit_panther_coordinator
+COPY ./noetic_workspace/src/first_pkg ./src/first_pkg
+COPY ./noetic_workspace/src/multiple-object-tracking-lidar-master ./src/multiple-object-tracking-lidar-master
 
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     catkin_make
