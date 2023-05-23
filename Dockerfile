@@ -13,8 +13,19 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
     apt install -y vim ros-$ROS_DISTRO-joy && \
-    apt install -y ros-noetic-pcl-ros && \
-    apt install -y python3-opencv
+    apt install -y ros-noetic-pcl-ros
+
+# Get and unzip the opencv repository.
+# https://docs.opencv.org/4.7.0/d7/d9f/tutorial_linux_install.html
+RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.7.0.zip
+RUN unzip opencv.zip
+RUN mkdir -p build && cd build
+
+# Configure.
+RUN cmake ../opencv-4.7.0
+
+# Build.
+RUN cmake --build
 
 ########################
 # Build software for RMIT Panther
