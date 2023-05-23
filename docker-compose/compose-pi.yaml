@@ -14,9 +14,9 @@
 
 services:
 
-  ros_master:
-    image: ros:noetic-ros-core
-    container_name: rmit_ros_master
+  panther_tracking:
+    image: panther/tracking:noetic
+    container_name: panther_tracking
     network_mode: host
     restart: always
     environment:
