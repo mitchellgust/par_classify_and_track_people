@@ -1,0 +1,75 @@
+# This is the default docker compose file that is use to configure `docker compose`
+# Note this file IS NOT read on robot boot
+# Instead services here should use `restart: always` to be loaded on boot
+#
+# To change the docker containers launched on boot
+# 1. Modify this file
+# 2. Stop all docker containers (`docker compose stop`)
+# 3. Restart this file (`docker compose -f compose.yaml up`)
+#
+# Then the files should launch on start-up
+
+
+services:
+
+  ros_master:
+    image: ros:noetic-ros-core
+    container_name: ros_master
+    network_mode: host
+    restart: always
+    environment:
+      - ROS_IP=10.15.20.2
+    command: roscore
+
+  panther_ros:
+    image: husarion/panther:noetic
+    container_name: panther_ros
+    network_mode: host
+    restart: always
+    privileged: true
+    tty: true
+    environment:
+      - ROS_IP=10.15.20.2
+      - ROS_MASTER_URI=http://10.15.20.2:11311
+      - PANTHER_HAS_CONFIG
+      - PANTHER_IMU_LOCALIZATION_X
+      - PANTHER_IMU_LOCALIZATION_Y
+      - PANTHER_IMU_LOCALIZATION_Z
+      - PANTHER_IMU_ORIENTATION_R
+      - PANTHER_IMU_ORIENTATION_P
+      - PANTHER_IMU_ORIENTATION_Y
+      - PANTHER_ROBOT_VERSION
+    volumes:
+      - ~/.ssh:/root/.ssh
+      - /tmp/panther_config.yaml:/tmp/panther_config.yaml
+      - ./shutdown_hosts.yaml:/ros_ws/src/panther_ros/panther_bringup/config/shutdown_hosts.yaml
+    command: roslaunch panther_bringup bringup.launch --wait
+
+  webui-ros-joystick:
+    image: husarion/webui-ros-joystick:noetic
+    container_name: webui-ros-joystick
+    network_mode: host
+    restart: always
+    environment:
+      - ROS_IP=10.15.20.2
+      - ROS_MASTER_URI=http://10.15.20.2:11311
+    command: roslaunch webui-ros-joystick panther_webui.launch e_stop:=true --wait
+
+
+  joy2twist:
+    image: husarion/joy2twist:noetic
+    restart: always
+    tty: true
+    network_mode: host
+    ipc: host
+    devices:
+      - /dev/input/js0
+    environment:
+      - ROS_IP=10.15.20.2
+      - ROS_MASTER_URI=http://10.15.20.2:11311
+    volumes:
+      - ~/husarion_docker/joy2twist/joy2twist/config/joy2twist_panther.yaml:/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml
+    command: >
+      roslaunch --wait
+      joy2twist gamepad_controller.launch docker:=true --wait
+
