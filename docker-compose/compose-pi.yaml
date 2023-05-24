@@ -21,4 +21,4 @@ services:
     restart: always
     environment:
       - ROS_IP=10.15.20.2
-    command: roslaunch first_pkg velodyne_interpret.launch --wait
+    command: roslaunch first_pkg velodyne_interpret.launch && rosrun multi_object_tracking_lidar kf_tracker --wait
