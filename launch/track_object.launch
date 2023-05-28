@@ -1,0 +1,6 @@
+<launch>
+    <node name="track_object" pkg="first_pkg" type="track_object.py" output="screen" >
+        <param name="speed" value="0.5" />
+        <param name="duration" value="5" />
+    </node>
+</launch>
