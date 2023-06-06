@@ -12,7 +12,6 @@ SHELL ["/bin/bash", "-c"]
 # Update Ubuntu Software repository and initialise ROS workspace
 RUN apt update && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
-    apt install -y vim ros-$ROS_DISTRO-joy && \
     apt install -y libopencv-dev && \
     apt install -y ros-noetic-pcl-ros
 
