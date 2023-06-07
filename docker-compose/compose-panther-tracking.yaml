@@ -15,9 +15,9 @@
 services:
 
   panther_tracking:
-    image: panther/tracking:noetic
+    image: pather_tracking:v1.0
     container_name: panther_tracking
     network_mode: host
     environment:
-      - ROS_IP=10.15.20.2
-    command: roslaunch first_pkg velodyne_interpret.launch && rosrun multi_object_tracking_lidar kf_tracker --wait
+      - ROS_IP=10.15.20.3
+    command: roslaunch first_pkg velodyne_interpret.launch && roslaunch first_pkg mapbuilder.launch && rosrun multi_object_tracking_lidar kf_tracker --wait
