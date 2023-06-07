@@ -29,7 +29,7 @@ COPY ./noetic_workspace/src/first_pkg ./src/first_pkg
 COPY ./noetic_workspace/src/multiple-object-tracking-lidar-master ./src/multiple-object-tracking-lidar-master
 
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
-    catkin_make
+    catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # This should not be required - replaced with above
 # RUN apt update && \
