@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="mapbuilder" pkg="first_pkg" type="mapbuilder.py" output="screen" >
+    </node>
+
+</launch>

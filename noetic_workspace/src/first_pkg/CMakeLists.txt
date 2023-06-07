@@ -8,8 +8,6 @@ project(first_pkg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  husarion_ros
-  rosbot_description
   roscpp
   rospy
   std_msgs
@@ -163,11 +161,13 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
    scripts/rotate.py
+   scripts/velodyne_interpret.py
+   scripts/mapbuilder.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-   )
+)
 install(DIRECTORY launch
-	 DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-	 )
+	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
