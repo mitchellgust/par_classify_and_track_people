@@ -18,7 +18,11 @@ services:
     image: panther_tracking:noetic
     container_name: panther_tracking
     network_mode: host
+    ipc: host
+    tty: true
     environment:
       - ROS_IP=10.15.20.3
+      - ROS_MASTER_URI=http://10.15.20.2:11311
     # && roslaunch first_pkg mapbuilder.launch && rosrun multi_object_tracking_lidar kf_tracker 
-    command: roslaunch first_pkg velodyne_interpret.launch --wait
+    # command: roslaunch first_pkg velodyne_interpret.launch --wait
+    command: roslaunch first_pkg mapbuilder.launch --wait
