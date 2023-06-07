@@ -162,6 +162,7 @@ include_directories(
 catkin_install_python(PROGRAMS
    scripts/rotate.py
    scripts/velodyne_interpret.py
+   scripts/mapbuilder.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
