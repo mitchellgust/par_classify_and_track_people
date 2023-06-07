@@ -77,5 +77,33 @@ docker stop CONTAINER
 # Turn off auto restart.
 docker update --restart=no CONTAINER
 
+# Delete container.
+docker rm CONTAINER
+
 
 ```
+
+
+# Run Panther Tracking
+
+## Build the image
+
+**This only needs to be done once!!!**
+
+The image only needs to be built once. Once built you can link the image to the container.
+
+1. cd into our source directory ```cd par-a3-dot2```
+1. build the docker image ```docker build -t panther_tracking .```
+
+## Run the compose file
+
+We have provided a compose file that runs our service, see **docker-compose/compose-panther-tracking.yaml** file
+
+1. Get the image name and tag ```docker images```
+1. Note down the **REPOSITORY** and **TAG** for our docker image, this will be needed later
+1. Navigate to the compose file folder ```cd par-a3-dot2/docker-compose```
+1. Verify the contents of the compose file ```cat compose-panther-tracking.yaml```
+1. Our service is the **panther_tracking** service, the image is specified as **REPOSITORY:TAG**, in our case it should be something like **pather_trakcing:v1.0**
+1. Once the content has been verified, run the following script to compose the file ```docker compose --project-name rmit_panther_tracking -f compose-panther-tracking.yaml up```
+
+> Note, if you have run this correctly then you wont have to remove the docker container and recreate it.
