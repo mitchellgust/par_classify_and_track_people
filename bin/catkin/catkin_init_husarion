@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]] ; then
+    echo "Usage: $0 ROS_VERSION"
+    exit 1
+fi
+
+ROS_VERSION=$1
+
+echo "Running catkin_init for ROS ($ROS_VERSION) in Husarion Location: '$HUSARION_CHECKOUT_DIR'"
+
+source /opt/ros/$ROS_VERSION/setup.bash
+
+cd $HUSARION_CHECKOUT_DIR
+mkdir src
+catkin_make
+

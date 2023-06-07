@@ -1,0 +1,23 @@
+# This is the default docker compose file that is use to configure `docker compose`
+# Note this file IS NOT read on robot boot
+# Instead services here should use `restart: always` to be loaded on boot
+#
+# To change the docker containers launched on boot
+# 1. Modify this file
+# 2. Stop all docker containers (`docker compose stop`)
+# 3. Restart this file (`docker compose --project-name --project-name my-project -f compose.yaml up`)
+#
+# This uses the project name 'rmit_panther_compose'
+#
+# Then the files should launch on start-up
+
+
+services:
+
+  panther_tracking:
+    image: panther/tracking:noetic
+    container_name: panther_tracking
+    network_mode: host
+    environment:
+      - ROS_IP=10.15.20.2
+    command: roslaunch first_pkg velodyne_interpret.launch && rosrun multi_object_tracking_lidar kf_tracker --wait

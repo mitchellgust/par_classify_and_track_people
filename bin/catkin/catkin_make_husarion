@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Running catkin_make for husarion_ws on ROSBot"
+cd $HUSARION_CHECKOUT_DIR
+source ./devel/setup.bash
+catkin_make
+
