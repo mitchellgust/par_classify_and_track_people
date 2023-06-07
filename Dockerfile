@@ -3,8 +3,9 @@
 # Base for ROS install - helps with development
 
 ARG ROS_DISTRO=noetic
-# FROM ros:$ROS_DISTRO-ros-base
-FROM husarion/panther:$ROS_DISTRO as rmit_panther_rosbase
+FROM ros:$ROS_DISTRO-ros-base as rmit_panther_rosbase
+# FROM husarion/panther:$ROS_DISTRO as rmit_panther_rosbase
+
 
 # Use bash instead of sh
 SHELL ["/bin/bash", "-c"]
