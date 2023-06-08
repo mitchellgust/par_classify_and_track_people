@@ -2,6 +2,6 @@
 
   <include file="$(find first_pkg)/launch/mapbuilder.launch" />
   <!-- <include file="$(find first_pkg)/launch/velodyne_interpret.launch" /> -->
-  <remap from="velodyne_points" to="filtered_cloud"/>
+  <remap from="/velodyne_points" to="/filtered_cloud"/>
 
 </launch>

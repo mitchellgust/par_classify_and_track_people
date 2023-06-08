@@ -24,4 +24,5 @@ services:
       - ROS_IP=10.15.20.3
       - ROS_MASTER_URI=http://10.15.20.2:11311
     #command: roslaunch first_pkg velodyne_interpret.launch && roslaunch first_pkg mapbuilder.launch && rosrun multi_object_tracking_lidar kf_tracker --wait
-    command: roslaunch first_pkg all.launch || rosrun multi_object_tracking_lidar kf_tracker --wait
+    # command: roslaunch first_pkg all.launch || rosrun multi_object_tracking_lidar kf_tracker --wait
+    command: roslaunch first_pkg all.launch --wait
