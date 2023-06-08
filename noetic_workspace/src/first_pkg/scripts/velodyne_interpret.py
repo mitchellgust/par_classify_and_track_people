@@ -21,7 +21,7 @@ class InterpretVelodyne:
         
         seconds_since_last_update = datetime.today().timestamp() - self.last_update
 
-        if seconds_since_last_update > self.update_frequency_seconds and point_cloud_data is not None:
+        if point_cloud_data is not None:
             
             # for p in filtered_cloud_point2:
             #     print(f'x: {p[0]}, y: {p[1]}, z: {p[2]}')            
