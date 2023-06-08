@@ -3,7 +3,7 @@
     <param name="resolution" value="0.05"/>
     <param name="frame_id" type="string" value="base_link"/>
     <param name="sensor_model/max_range" value= "5.0"/>
-    <remap from="/cloud_in" to="/velodyne_points"/>
+    <remap from="velodyne_points" to="cloud_in"/>
   </node>
 </launch>
 
