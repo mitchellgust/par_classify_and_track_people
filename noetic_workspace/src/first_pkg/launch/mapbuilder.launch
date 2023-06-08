@@ -2,7 +2,7 @@
   <node name="octomap_server" pkg="octomap_server" type="octomap_server_node" output="screen">
     <param name="frame_id" value="base_link"/>
     <param name="cloud_in_topic" value="/velodyne_points"/>
-    <param name="octomap_binary_filename" value="$(find package_name)/maps/octomap.bt"/>
+    <param name="octomap_binary_filename" value="$(find first_pkg)/maps/octomap.bt"/>
   </node>
 </launch>
 
