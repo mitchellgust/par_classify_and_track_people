@@ -14,7 +14,8 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
     apt install -y libopencv-dev && \
-    apt install -y ros-noetic-pcl-ros
+    apt install -y ros-noetic-pcl-ros && \
+    apt install ros-noetic-octomap-server
 
 ########################
 # Build software for RMIT Panther
