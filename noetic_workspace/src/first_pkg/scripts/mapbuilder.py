@@ -26,7 +26,8 @@ def callback(data):
         x, y, _ = point
         grid_x = int((x - points[:, 0].min()) / grid_size)
         grid_y = int((y - points[:, 1].min()) / grid_size)
-        grid[grid_y, grid_x] = 100  # Occupied
+        if 0 <= grid_x < grid_width and 0 <= grid_y < grid_height:
+             grid[grid_y, grid_x] = 100  # Occupied
 
     # Convert occupancy grid to OccupancyGrid message
     occupancy_grid_msg = OccupancyGrid()
