@@ -15,7 +15,13 @@ RUN apt update && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
     apt install -y libopencv-dev && \
     apt install -y ros-noetic-pcl-ros && \
-    apt install -y ros-noetic-octomap-server
+    apt install -y ros-noetic-octomap-server && \
+    apt install -y python3-numpy
+
+# Open3D and pcl libs.
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir --upgrade pclpy && \
+    python3 -m pip install --no-cache-dir --upgrade open3d
 
 ########################
 # Build software for RMIT Panther
