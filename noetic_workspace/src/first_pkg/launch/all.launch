@@ -1,7 +1,5 @@
 <launch>
-
-  <remap from="velodyne_points" to="filtered_cloud"/>
-  <include file="$(find first_pkg)/launch/mapbuilder.launch" />
+  <!-- <include file="$(find first_pkg)/launch/mapbuilder.launch" /> -->
   <!-- <include file="$(find first_pkg)/launch/velodyne_interpret.launch" /> -->
-
+  <include file="$(find multi_object_tracking_lidar)/launch/kf_tracker.launch" />
 </launch>
