@@ -2,10 +2,10 @@
 
 
 import rospy
-import open3d as o3d
+#import open3d as o3d
 import numpy as np
-import pclpy
-from pclpy import pcl
+#import pclpy
+#from pclpy import pcl
 from datetime import datetime
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2, PointField
@@ -103,7 +103,7 @@ class InterpretVelodyne:
             self.filtered_point_cloud_publisher.publish(point_cloud_data)
 
     
-        def publish_map(self, occupancy_grid : OccupancyGrid):
+    def publish_map(self, occupancy_grid : OccupancyGrid):
             if occupancy_grid is not None:
                 self.map_publisher(occupancy_grid)
     

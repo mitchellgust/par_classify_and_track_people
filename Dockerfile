@@ -19,9 +19,9 @@ RUN apt update && \
     apt install -y python3-numpy
 
 # Open3D and pcl libs.
-RUN python3 -m pip install --no-cache-dir --upgrade pip && \
-    python3 -m pip install --no-cache-dir --upgrade pclpy && \
-    python3 -m pip install --no-cache-dir --upgrade open3d
+#RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+#    python3 -m pip install --no-cache-dir --upgrade pclpy && \
+#    python3 -m pip install --no-cache-dir --upgrade open3d
 
 ########################
 # Build software for RMIT Panther
