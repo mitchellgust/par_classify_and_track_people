@@ -104,8 +104,8 @@ class InterpretVelodyne:
 
     
     def publish_map(self, occupancy_grid : OccupancyGrid):
-            if occupancy_grid is not None:
-                self.map_publisher(occupancy_grid)
+        if occupancy_grid is not None:
+            self.map_publisher(occupancy_grid)
     
     """
     Start subsribers.
