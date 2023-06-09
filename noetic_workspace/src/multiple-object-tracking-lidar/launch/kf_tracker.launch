@@ -1,5 +1,5 @@
 <launch>
 
-    <node name="kf_tracker" pkg="multi_object_tracking_lidar" type="src/main.cpp" output="screen"/>
+    <node name="kf_tracker" pkg="multi_object_tracking_lidar" type="main.cpp" output="screen"/>
     <remap from="filtered_cloud" to="velodyne_points"/>
 </launch>
