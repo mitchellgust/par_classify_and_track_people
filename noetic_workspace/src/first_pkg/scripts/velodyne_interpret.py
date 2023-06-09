@@ -9,6 +9,7 @@ from pclpy import pcl
 from datetime import datetime
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2, PointField
+from nav_msgs.msg import OccupancyGrid
 from std_msgs.msg import Header
 
 # Goals - 
@@ -21,6 +22,7 @@ class InterpretVelodyne:
         self.last_update = 0
         self.update_frequency_seconds = 10
         self.filtered_point_cloud_publisher = rospy.Publisher('filtered_cloud', PointCloud2, queue_size=10)
+        self.map_publisher = rospy.Publisher('map', OccupancyGrid, queue_size=10)
 
     # # Techniques taken from here: https://betterprogramming.pub/point-cloud-filtering-in-python-e8a06bbbcee5
     # def remove_noise_from_point_cloud_2(self, filtered_cloud):
@@ -100,11 +102,17 @@ class InterpretVelodyne:
             # out = self.remove_noise_from_point_cloud_2(filtered_cloud)
             self.filtered_point_cloud_publisher.publish(point_cloud_data)
 
+    
+        def publish_map(self, occupancy_grid : OccupancyGrid):
+            if occupancy_grid is not None:
+                self.map_publisher(occupancy_grid)
+    
     """
     Start subsribers.
     """
     def execute(self):
         self.velodyne_subscriber = rospy.Subscriber('/velodyne_points', PointCloud2, self.interpret_point_cloud_2)
+        self.projected_map_subscriber = rospy.Subscriber('/projected_map', OccupancyGrid, self.publish_map)
         rospy.spin()
 
 # Short ROS Node method
