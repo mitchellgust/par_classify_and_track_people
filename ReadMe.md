@@ -104,8 +104,9 @@ We have provided a compose file that runs our service, see **docker-compose/comp
 1. Get the image name and tag ```docker images```
 1. Note down the **REPOSITORY** and **TAG** for our docker image, this will be needed later
 1. Navigate to the compose file folder ```cd par-a3-dot2/docker-compose```
-1. Verify the contents of the compose file ```cat compose-panther-tracking.yaml```
+1. Verify the contents of the compose file ```cat compose-panther-tracking.yaml``` and ```cat compose-panther-firstpkg.yaml```
 1. Our service is the **panther_tracking** service, the image is specified as **REPOSITORY:TAG**, in our case it should be something like **pather_tracking:noetic**
-1. Once the content has been verified, run the following script to compose the file ```docker compose --project-name rmit_panther_tracking -f compose-panther-tracking.yaml up```
+1. Once the content has been verified, run the following script to compose the first package file ```docker compose --project-name rmit_panther_tracking -f compose-panther-firstpkg.yaml up```
+1. Then in a new terminal navigate to the **docker-compose** folder and run ```docker compose --project-name rmit_panther_tracking -f compose-panther-tracking.yaml up```
 
 > Note, if you have run this correctly then you wont have to remove the docker container and recreate it.
