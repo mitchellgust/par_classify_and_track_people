@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  tf2_ros
+  tf2_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -163,6 +166,7 @@ catkin_install_python(PROGRAMS
    scripts/rotate.py
    scripts/velodyne_interpret.py
    scripts/mapbuilder.py
+   scripts/fixed_tf_broadcaster.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
