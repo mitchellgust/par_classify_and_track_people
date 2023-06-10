@@ -15,7 +15,7 @@
 services:
 
   panther_tracking:
-    image: panther_tracking:noetic
+    image: panther_tracking:test
     container_name: panther_first_pkg
     network_mode: host
     ipc: host
