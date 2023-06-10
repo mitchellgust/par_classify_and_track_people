@@ -8,10 +8,12 @@ project(first_pkg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rosbot_description
   roscpp
   rospy
   std_msgs
+  tf2_ros
+  tf2_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -163,6 +165,8 @@ include_directories(
 catkin_install_python(PROGRAMS
    scripts/rotate.py
    scripts/velodyne_interpret.py
+   scripts/mapbuilder.py
+   scripts/fixed_tf_broadcaster.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
