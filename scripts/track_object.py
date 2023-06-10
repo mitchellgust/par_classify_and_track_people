@@ -4,7 +4,7 @@ import rospy
 
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Pose
-from visualization_msgs import MarkerArray
+from visualization_msgs.msg import MarkerArray
 from datetime import datetime
 
 # Stores Data based on each Object Identified through Topic
