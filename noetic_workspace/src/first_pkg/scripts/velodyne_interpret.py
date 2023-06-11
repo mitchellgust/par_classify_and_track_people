@@ -90,7 +90,7 @@ class InterpretVelodyne:
         if len(point_cloud_list) == 0:
             return none
 
-        xyz = [(x,y,z) for x,y,z in point_cloud] # get xyz
+        xyz = [(x,y,z) for x,y,z in point_cloud_list] # get xyz
         open3d_cloud.points = open3d.Vector3dVector(np.array(xyz))
 
         return open3d_cloud
