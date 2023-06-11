@@ -64,26 +64,34 @@ class InterpretVelodyne:
         
     #     return out_pcd.points
 
-        
-
-
-
 
     def interpret_point_cloud_2(self, point_cloud_data : PointCloud2):
         
         seconds_since_last_update = datetime.today().timestamp() - self.last_update
 
+        # if point_cloud_data is not None and seconds_since_last_update > 10:
         if point_cloud_data is not None:
-            
-            # for p in filtered_cloud_point2:
-            #     print(f'x: {p[0]}, y: {p[1]}, z: {p[2]}')            
             
             # Update time since last update.
             self.last_update = datetime.today().timestamp()
 
-            # Filter out points.
-            filtered_point_cloud_list = point_cloud2.read_points_list(point_cloud_data, field_names = ("x", "y", "z"), skip_nans=True)
+            # Extract header information.
+            header = point_cloud_data.header
+
+            # Extract field information.
+            fields = point_cloud_data.fields
             
+            # Extract points.
+            filtered_point_cloud_list = point_cloud2.read_points_list(point_cloud_data, field_names = fields, skip_nans=True)
+            
+            # Apply filters to points.
+
+            # Recreate point cloud.
+            filtered_point_cloud = point_cloud2.create_cloud(header, fields, filtered_point_cloud_list)
+
+            # Publish filtered cloud.
+            self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
+
             # Recreate point cloud.
             # header = Header()
             # header = point_cloud_data.header                        # Field names included in list.
@@ -100,7 +108,7 @@ class InterpretVelodyne:
             # extract.filter(*source_cloud);
 
             # out = self.remove_noise_from_point_cloud_2(filtered_cloud)
-            self.filtered_point_cloud_publisher.publish(point_cloud_data)
+            # self.filtered_point_cloud_publisher.publish(point_cloud_data)
 
     
     def publish_map(self, occupancy_grid : OccupancyGrid):
