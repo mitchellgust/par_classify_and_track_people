@@ -85,7 +85,7 @@ class InterpretVelodyne:
 
 
     def convert_ros_to_open3d(self, header, point_cloud_list):
-        open3d_cloud = open3d.PointCloud()
+        open3d_cloud = open3d.geometry.PointCloud()
 
         if len(point_cloud_list) == 0:
             return none
