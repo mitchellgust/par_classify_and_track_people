@@ -79,15 +79,19 @@ class InterpretVelodyne:
             header = point_cloud_data.header
 
             # Extract field information.
+            field_names = list()
             fields = point_cloud_data.fields
             
+            for point_field in fields:
+                field_names.append(point_field.name)
+
             # Extract points.
-            filtered_point_cloud_list = point_cloud2.read_points_list(point_cloud_data, field_names = fields, skip_nans=True)
+            filtered_point_cloud_list = point_cloud2.read_points_list(point_cloud_data, field_names, skip_nans=True)
             
             # Apply filters to points.
 
             # Recreate point cloud.
-            filtered_point_cloud = point_cloud2.create_cloud(header, fields, filtered_point_cloud_list)
+            filtered_point_cloud = point_cloud2.create_cloud(header, field_names, filtered_point_cloud_list)
 
             # Publish filtered cloud.
             self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
