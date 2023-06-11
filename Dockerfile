@@ -26,7 +26,7 @@ RUN apt update && \
 
 # Install Open3D
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
-    python3 -m pip install --no-cache-dir --upgrade open3d
+    python3 -m pip install --no-cache-dir --upgrade --ignore-installed open3d
 
 ########################
 # Build software for RMIT Panther
