@@ -91,7 +91,7 @@ class InterpretVelodyne:
             # Apply filters to points.
 
             # Recreate point cloud.
-            filtered_point_cloud = point_cloud2.create_cloud(header, field_names, filtered_point_cloud_list)
+            filtered_point_cloud = point_cloud2.create_cloud(header, fields, filtered_point_cloud_list)
 
             # Publish filtered cloud.
             self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
