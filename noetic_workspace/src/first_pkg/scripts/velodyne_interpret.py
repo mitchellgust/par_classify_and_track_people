@@ -81,7 +81,7 @@ class InterpretVelodyne:
         cloud_data = np.asarray(open3d_cloud.points)
         fields = FIELDS_XYZ
         
-        return pc2.create_cloud(header, fields, cloud_data)
+        return point_cloud2.create_cloud(header, fields, cloud_data)
 
 
     def convert_ros_to_open3d(self, header, point_cloud_list):
