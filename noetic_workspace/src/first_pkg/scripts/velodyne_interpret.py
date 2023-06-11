@@ -2,7 +2,7 @@
 
 
 import rospy
-#import open3d as o3d
+import open3d
 import numpy as np
 #import pclpy
 #from pclpy import pcl
@@ -64,6 +64,36 @@ class InterpretVelodyne:
         
     #     return out_pcd.points
 
+    # Convert open3d cloud to PointCloud2.
+    # See - https://github.com/felixchenfy/open3d_ros_pointcloud_conversion/blob/master/lib_cloud_conversion_between_Open3D_and_ROS.py
+    def convert_cloud_from_open3d_to_ros(self, open3d_cloud, header):
+        
+        FIELDS_XYZ = [
+            PointField(name='x', offset=0, datatype=PointField.FLOAT32, count=1),
+            PointField(name='y', offset=4, datatype=PointField.FLOAT32, count=1),
+            PointField(name='z', offset=8, datatype=PointField.FLOAT32, count=1),
+        ]
+        
+        header_new = Header()
+        header_new.frame_id = header.frame_id
+        header_new.stamp = header.stamp
+
+        cloud_data = np.asarray(open3d_cloud.points)
+        fields = FIELDS_XYZ
+        
+        return pc2.create_cloud(header, fields, cloud_data)
+
+
+    def convert_ros_to_open3d(self, header, point_cloud_list):
+        open3d_cloud = open3d.PointCloud()
+
+        if len(point_cloud_list) == 0:
+            return none
+
+        xyz = [(x,y,z) for x,y,z in point_cloud] # get xyz
+        open3d_cloud.points = open3d.Vector3dVector(np.array(xyz))
+
+        return open3d_cloud
 
     def interpret_point_cloud_2(self, point_cloud_data : PointCloud2):
         
@@ -89,12 +119,16 @@ class InterpretVelodyne:
             filtered_point_cloud_list = point_cloud2.read_points_list(point_cloud_data, field_names, skip_nans=True)
             
             # Apply filters to points.
+            open3d_cloud = self.convert_ros_to_open3d(header, filtered_point_cloud_list)
 
-            # Recreate point cloud.
-            filtered_point_cloud = point_cloud2.create_cloud(header, fields, filtered_point_cloud_list)
+            if open3d_cloud is not None:
+                # Recreate point cloud - old way.
+                # filtered_point_cloud = point_cloud2.create_cloud(header, fields, filtered_point_cloud_list)
 
-            # Publish filtered cloud.
-            self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
+                filtered_point_cloud = self.convert_cloud_from_open3d_to_ros(open3d_cloud, header)
+
+                # Publish filtered cloud.
+                self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
 
             # Recreate point cloud.
             # header = Header()
