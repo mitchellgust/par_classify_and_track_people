@@ -6,7 +6,6 @@ import open3d
 import numpy as np
 #import pclpy
 #from pclpy import pcl
-from open3d import utility.Vector3dVector as Vector3dVector
 from datetime import datetime
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2, PointField
@@ -92,7 +91,7 @@ class InterpretVelodyne:
             return none
 
         xyz = [(x,y,z) for x,y,z,intensity,ring,time in point_cloud_list] # get xyz
-        open3d_cloud.points = Vector3dVector(np.array(xyz))
+        open3d_cloud.points = open3d.utility.Vector3dVector(np.array(xyz))
 
         return open3d_cloud
 
