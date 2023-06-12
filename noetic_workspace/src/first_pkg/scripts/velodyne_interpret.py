@@ -6,29 +6,31 @@ import open3d
 import math
 import itertools
 import numpy as np
-#import pclpy
-#from pclpy import pcl
+
 from datetime import datetime
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2, PointField
 from nav_msgs.msg import OccupancyGrid
 from std_msgs.msg import Header
 
-# Goals - 
-# 1. Register when object enters within a certain distance.
-# 2. Register object deviation from center 
-
+"""
+Capture velodyne data, remove noise, then publish the filtered_cloud for down stream processing. 
+"""
 class InterpretVelodyne:
+
+    """
+    Setup publisher and private variables.
+    """
     def __init__(self):
         self.velodyne_subscriber = None
         self.last_update = 0
         self.update_frequency_seconds = 10
         self.filtered_point_cloud_publisher = rospy.Publisher('filtered_cloud', PointCloud2, queue_size=10)
-        # self.map_publisher = rospy.Publisher('map', OccupancyGrid, queue_size=10)
 
     """
-    Applies noise reduction and other filteres to an open3d PointCloud and 
-    returns it. 
+    Attempts to filter out the noise within the provided open3d PointCloud.
+    Applies point cropping and radius based outlier removal techniques.
+    return a filtered point cloud.
     """
     def filter_point_cloud(self, open3d_cloud : open3d.geometry.PointCloud) -> open3d.geometry.PointCloud:
         
@@ -55,8 +57,10 @@ class InterpretVelodyne:
         
         return outlier_rad_pcd
 
-    # Convert open3d cloud to PointCloud2.
-    # See - https://github.com/felixchenfy/open3d_ros_pointcloud_conversion/blob/master/lib_cloud_conversion_between_Open3D_and_ROS.py
+    """
+    Convert open3d cloud to ros based PointCloud2.
+    See - https://github.com/felixchenfy/open3d_ros_pointcloud_conversion/blob/master/lib_cloud_conversion_between_Open3D_and_ROS.py
+    """
     def convert_cloud_from_open3d_to_ros(self, open3d_cloud, header):
         
         FIELDS_XYZ = [
@@ -74,7 +78,9 @@ class InterpretVelodyne:
         
         return point_cloud2.create_cloud(header, fields, cloud_data)
 
-
+    """
+    Convert ros based PointCloud2 to open3d PointCloud.
+    """
     def convert_ros_to_open3d(self, header, point_cloud_list):
         open3d_cloud = open3d.geometry.PointCloud()
 
@@ -86,11 +92,15 @@ class InterpretVelodyne:
 
         return open3d_cloud
 
+    """
+    Interprets the ROS based PointCloud2 data, converts it to an Open3d PointCloud, applies pass through filters to the data, converts it back to 
+    ros based PointCloud2 and publishes it. 
+    """
     def interpret_point_cloud_2(self, point_cloud_data : PointCloud2):
         
         seconds_since_last_update = datetime.today().timestamp() - self.last_update
 
-        # if point_cloud_data is not None and seconds_since_last_update > 10:
+        # if point_cloud_data is not None.
         if point_cloud_data is not None:
             
             # Update time since last update.
@@ -124,29 +134,6 @@ class InterpretVelodyne:
 
                 # Publish filtered cloud.
                 self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
-
-            # Recreate point cloud.
-            # header = Header()
-            # header = point_cloud_data.header                        # Field names included in list.
-            # filtered_point_cloud = point_cloud2.create_cloud_xyz32(header, filtered_point_cloud_list)
-            
-            # self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
-
-            # std::shared_ptr<std::vector<int>> indices(new std::vector<int>);
-            # pcl::removeNaNFromPointCloud(*source_cloud, *indices);
-            # pcl::ExtractIndices<pcl::PointXYZ> extract;
-            # extract.setInputCloud(source_cloud);
-            # extract.setIndices(indices);
-            # extract.setNegative(true);
-            # extract.filter(*source_cloud);
-
-            # out = self.remove_noise_from_point_cloud_2(filtered_cloud)
-            # self.filtered_point_cloud_publisher.publish(point_cloud_data)
-
-    
-    # def publish_map(self, occupancy_grid : OccupancyGrid):
-    #     if occupancy_grid is not None:
-    #         self.map_publisher.publish(occupancy_grid)
     
     """
     Start subsribers.
