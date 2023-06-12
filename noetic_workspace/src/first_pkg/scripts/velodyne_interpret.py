@@ -44,8 +44,8 @@ class InterpretVelodyne:
         
         # Apply radius outlier removal that removes all points that 
         # don't have a specific number of points around it. 
-        pcd_rad, ind_rad = open3d_cloud.remove_radius_outlier(nb_points=200, radius=0.05)
-        outlier_rad_pcd = open3d_cloud.select_by_index(ind_rad, invert=True)
+        pcd_rad, ind_rad = pcd_cropped.remove_radius_outlier(nb_points=20, radius=0.05)
+        outlier_rad_pcd = pcd_cropped.select_by_index(ind_rad, invert=True)
         
         # Apply statistical outlier removal filter.
         # This filter removes points that are further away from their
@@ -53,7 +53,7 @@ class InterpretVelodyne:
         pcd_stat, ind_stat = open3d_cloud.remove_statistical_outlier(nb_neighbors=5, std_ratio=2.0)
         outlier_stat_pcd = open3d_cloud.select_by_index(ind_stat, invert=True)
         
-        return pcd_cropped
+        return outlier_rad_pcd
 
     # Convert open3d cloud to PointCloud2.
     # See - https://github.com/felixchenfy/open3d_ros_pointcloud_conversion/blob/master/lib_cloud_conversion_between_Open3D_and_ROS.py
