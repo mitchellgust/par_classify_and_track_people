@@ -17,12 +17,16 @@ RUN apt update && \
     apt install -y ros-noetic-pcl-ros && \
     apt install -y ros-noetic-octomap-server && \
     apt install -y ros-noetic-gmapping && \
-    apt install -y python3-numpy
+    apt install -y python3-numpy && \
+    apt install -y libegl1 && \
+    apt install -y libgl1 && \
+    apt install -y libgomp1 && \
+    apt install -y python3-pip \
+    && rm -rf /var/lib/apt/lists/*
 
-# Open3D and pcl libs.
-#RUN python3 -m pip install --no-cache-dir --upgrade pip && \
-#    python3 -m pip install --no-cache-dir --upgrade pclpy && \
-#    python3 -m pip install --no-cache-dir --upgrade open3d
+# Install Open3D
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir --upgrade --ignore-installed open3d
 
 ########################
 # Build software for RMIT Panther
