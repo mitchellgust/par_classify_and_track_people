@@ -50,8 +50,8 @@ class InterpretVelodyne:
         # Apply statistical outlier removal filter.
         # This filter removes points that are further away from their
         # neighbours.
-        pcd_stat, ind_stat = open3d_cloud.remove_statistical_outlier(nb_neighbors=5, std_ratio=2.0)
-        outlier_stat_pcd = open3d_cloud.select_by_index(ind_stat, invert=True)
+        #pcd_stat, ind_stat = outlier_rad_pcd.remove_statistical_outlier(nb_neighbors=10, std_ratio=0.05)
+        #outlier_stat_pcd = outlier_rad_pcd.select_by_index(ind_stat, invert=True)
         
         return outlier_rad_pcd
 
