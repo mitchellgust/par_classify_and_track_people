@@ -3,6 +3,8 @@
 
 import rospy
 import open3d
+import math
+import itertools
 import numpy as np
 #import pclpy
 #from pclpy import pcl
@@ -24,45 +26,34 @@ class InterpretVelodyne:
         self.filtered_point_cloud_publisher = rospy.Publisher('filtered_cloud', PointCloud2, queue_size=10)
         # self.map_publisher = rospy.Publisher('map', OccupancyGrid, queue_size=10)
 
-    # # Techniques taken from here: https://betterprogramming.pub/point-cloud-filtering-in-python-e8a06bbbcee5
-    # def remove_noise_from_point_cloud_2(self, filtered_cloud):
+    """
+    Applies noise reduction and other filteres to an open3d PointCloud and 
+    returns it. 
+    """
+    def filter_point_cloud(self, open3d_cloud : open3d.geometry.PointCloud) -> open3d.geometry.PointCloud:
         
-    #     xyz = np.array([[0,0,0]])
-    #     rgb = np.array([[0,0,0]])
-
-    #     # Data conversion from sensor_msgs pointcloud to o3d pointcloud: https://answers.ros.org/question/255351/how-o-save-a-pointcloud2-data-in-python/
-    #     for x in filtered_cloud:
-    #         test = x[3]
-
-    #         # cast float32 to int so that bitwise operations are possible
-    #         s = struct.pack('>f' ,test)
-    #         i = struct.unpack('>l',s)[0]
-            
-    #         # you can get back the float value by the inverse operations
-    #         pack = ctypes.c_uint32(i).value
-    #         r = (pack & 0x00FF0000)>> 16
-    #         g = (pack & 0x0000FF00)>> 8
-    #         b = (pack & 0x000000FF)
-            
-    #         # prints r,g,b values in the 0-255 range
-    #                     # x,y,z can be retrieved from the x[0],x[1],x[2]
-    #         xyz = np.append(xyz,[[x[0],x[1],x[2]]], axis = 0)
-    #         rgb = np.append(rgb,[[r,g,b]], axis = 0)
+        # Pass through filter to reduce noise. Needs to be tweaked for velodyne.
+        # Only accept z points between min and max.
+        bounds = [[-math.inf, math.inf], [-math.inf, math.inf], [-2.0,0]]
+        bounding_box_points = list(itertools.product(*bounds))
+        bounding_box = open3d.geometry.AxisAlignedBoundingBox.create_from_points(
+            open3d.utility.Vector3dVector(bounding_box_points)) # Create bounding box object.
         
-    #     out_pcd = o3d.geometry.PointCloud()
-    #     out.pcd.points = o3d.utility.Vector3dVector(xyz)
-    #     out_pcd.colors = o3d.utility.Vector3dVector(rgb)
-
-    #     # Create bounding box:
-    #     bounds = [[-math.inf, math.inf], [-math.inf, math.inf], [0.8, 2]]  # set the bounds
-    #     bounding_box_points = list(itertools.product(*bounds))  # create limit points
-    #     bounding_box = o3d.geometry.AxisAlignedBoundingBox.create_from_points(
-    #         o3d.utility.Vector3dVector(bounding_box_points))  # create bounding box object
-
-    #     # Crop the point cloud using the bounding box:
-    #     pcd_croped = pcd.crop(bounding_box)
+        # Crop the point cloud using the bounding box.
+        pcd_cropped = open3d_cloud.crop(bounding_box)
         
-    #     return out_pcd.points
+        # Apply radius outlier removal that removes all points that 
+        # don't have a specific number of points around it. 
+        pcd_rad, ind_rad = pcd_cropped.remove_radius_outlier(nb_points=200, radius=0.05)
+        outlier_rad_pcd = pcd_cropped.select_by_index(ind_rad, invert=True)
+        
+        # Apply statistical outlier removal filter.
+        # This filter removes points that are further away from their
+        # neighbours.
+        pcd_stat, ind_stat = outlier_rad_pcd.remove_statistical_outlier(nb_neighbors=5, std_ratio=2.0)
+        outlier_stat_pcd = outlier_rad_pcd.select_by_index(ind_stat, invert=True)
+        
+        return outlier_stat_pcd
 
     # Convert open3d cloud to PointCloud2.
     # See - https://github.com/felixchenfy/open3d_ros_pointcloud_conversion/blob/master/lib_cloud_conversion_between_Open3D_and_ROS.py
@@ -125,7 +116,11 @@ class InterpretVelodyne:
                 # Recreate point cloud - old way.
                 # filtered_point_cloud = point_cloud2.create_cloud(header, fields, filtered_point_cloud_list)
 
-                filtered_point_cloud = self.convert_cloud_from_open3d_to_ros(open3d_cloud, header)
+                # Apply filters to point cloud.
+                filtered_open3d_cloud = self.filter_point_cloud(open3d_cloud)
+
+                # Convert back to ROS cloud.
+                filtered_point_cloud = self.convert_cloud_from_open3d_to_ros(filtered_open3d_cloud, header)
 
                 # Publish filtered cloud.
                 self.filtered_point_cloud_publisher.publish(filtered_point_cloud)
