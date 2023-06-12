@@ -34,7 +34,7 @@ class InterpretVelodyne:
         
         # Pass through filter to reduce noise. Needs to be tweaked for velodyne.
         # Only accept z points between min and max.
-        bounds = [[-math.inf, math.inf], [-math.inf, math.inf], [-2.0,0]]
+        bounds = [[-math.inf, math.inf], [-math.inf, math.inf], [0.0,0.2]]
         bounding_box_points = list(itertools.product(*bounds))
         bounding_box = open3d.geometry.AxisAlignedBoundingBox.create_from_points(
             open3d.utility.Vector3dVector(bounding_box_points)) # Create bounding box object.
@@ -44,16 +44,16 @@ class InterpretVelodyne:
         
         # Apply radius outlier removal that removes all points that 
         # don't have a specific number of points around it. 
-        pcd_rad, ind_rad = pcd_cropped.remove_radius_outlier(nb_points=200, radius=0.05)
-        outlier_rad_pcd = pcd_cropped.select_by_index(ind_rad, invert=True)
+        pcd_rad, ind_rad = open3d_cloud.remove_radius_outlier(nb_points=200, radius=0.05)
+        outlier_rad_pcd = open3d_cloud.select_by_index(ind_rad, invert=True)
         
         # Apply statistical outlier removal filter.
         # This filter removes points that are further away from their
         # neighbours.
-        pcd_stat, ind_stat = outlier_rad_pcd.remove_statistical_outlier(nb_neighbors=5, std_ratio=2.0)
-        outlier_stat_pcd = outlier_rad_pcd.select_by_index(ind_stat, invert=True)
+        pcd_stat, ind_stat = open3d_cloud.remove_statistical_outlier(nb_neighbors=5, std_ratio=2.0)
+        outlier_stat_pcd = open3d_cloud.select_by_index(ind_stat, invert=True)
         
-        return outlier_stat_pcd
+        return pcd_cropped
 
     # Convert open3d cloud to PointCloud2.
     # See - https://github.com/felixchenfy/open3d_ros_pointcloud_conversion/blob/master/lib_cloud_conversion_between_Open3D_and_ROS.py
