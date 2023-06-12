@@ -34,7 +34,7 @@ class InterpretVelodyne:
         
         # Pass through filter to reduce noise. Needs to be tweaked for velodyne.
         # Only accept z points between min and max.
-        bounds = [[-math.inf, math.inf], [-math.inf, math.inf], [0.0,0.2]]
+        bounds = [[-math.inf, math.inf], [-math.inf, math.inf], [-0.1,0.5]]
         bounding_box_points = list(itertools.product(*bounds))
         bounding_box = open3d.geometry.AxisAlignedBoundingBox.create_from_points(
             open3d.utility.Vector3dVector(bounding_box_points)) # Create bounding box object.
