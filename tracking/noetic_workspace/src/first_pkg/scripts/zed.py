@@ -5,8 +5,13 @@ from geometry_msgs.msg import Quaternion
 
 # Define marker publisher as a global variable
 marker_pub = None
+# Dictionary to store the marker positions for each label ID
+marker_positions = {}
 
 def callback(data):
+    # Clear previous marker positions
+    marker_positions.clear()
+
     for obj in data.objects:
         label = obj.label
         label_id = obj.label_id
@@ -14,9 +19,18 @@ def callback(data):
         confidence = obj.confidence
         position = obj.position
 
-        rospy.loginfo("Object: Label=%s, Label ID=%d, Sublabel=%s, Confidence=%.2f, Position=%.2f, %.2f, %.2f",
-                      label, label_id, sublabel, confidence, position[0], position[1], position[2])
+        if label == "person" and confidence >= 60.0:
+            rospy.loginfo("Object: Label=%s, Label ID=%d, Sublabel=%s, Confidence=%.2f, Position=%.2f, %.2f, %.2f",
+                          label, label_id, sublabel, confidence, position[0], position[1], position[2])
 
+            # Update the marker position for the current object
+            marker_positions[label_id] = position
+
+    # Publish the markers
+    publish_markers()
+
+def publish_markers():
+    for label_id, position in marker_positions.items():
         # Create a marker for each object
         marker = Marker()
         marker.header.frame_id = "map"  # Set the frame ID of the marker to match your map's frame ID
