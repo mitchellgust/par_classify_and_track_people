@@ -19,7 +19,7 @@ def callback(data):
         confidence = obj.confidence
         position = obj.position
 
-        if label == "person" and confidence >= 60.0:
+        if label == "Person" and confidence >= 60.0:
             rospy.loginfo("Object: Label=%s, Label ID=%d, Sublabel=%s, Confidence=%.2f, Position=%.2f, %.2f, %.2f",
                           label, label_id, sublabel, confidence, position[0], position[1], position[2])
 
