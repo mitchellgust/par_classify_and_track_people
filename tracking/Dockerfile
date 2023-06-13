@@ -39,6 +39,7 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /ros_ws
 COPY ./noetic_workspace/src/first_pkg ./src/first_pkg
 COPY ./noetic_workspace/src/multiple-object-tracking-lidar ./src/multiple-object-tracking-lidar
+COPY ./noetic_workspace/src/zed-ros-interfaces ./src/zed-ros-interfaces
 
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release

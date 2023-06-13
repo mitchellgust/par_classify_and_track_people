@@ -3,4 +3,5 @@
   <include file="$(find first_pkg)/launch/mapbuilder.launch" />
   <include file="$(find first_pkg)/launch/velodyne_interpret.launch" />
   <include file="$(find first_pkg)/launch/test.launch" />
+  <include file="$(find first_pkg)/launch/zed.launch" />
 </launch>

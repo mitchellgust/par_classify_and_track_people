@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="zed" pkg="first_pkg" type="zed.py" output="screen" >
+    </node>
+
+</launch>
