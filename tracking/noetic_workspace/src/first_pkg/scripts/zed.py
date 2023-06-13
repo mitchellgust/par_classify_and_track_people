@@ -2,6 +2,9 @@ import rospy
 from zed_interfaces.msg import ObjectsStamped
 from visualization_msgs.msg import Marker
 
+# Define marker publisher as a global variable
+marker_pub = None
+
 def callback(data):
     for obj in data.objects:
         label = obj.label
@@ -32,8 +35,10 @@ def callback(data):
         marker_pub.publish(marker)
 
 def listener():
+    global marker_pub  # Declare marker_pub as a global variable
+
     rospy.init_node('listener', anonymous=True)
-    rospy.Subscriber("zed2i/zed_node/obj_det/objects", ObjectsStamped, callback)
+    rospy.Subscriber("zed2/zed_node/obj_det/objects", ObjectsStamped, callback)
 
     # Create a publisher for visualization markers
     marker_pub = rospy.Publisher("visualization_marker", Marker, queue_size=10)
