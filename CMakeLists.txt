@@ -8,10 +8,15 @@ project(first_pkg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rosbot_description
   roscpp
   rospy
   std_msgs
+
+  geometry_msgs
+  sensor_msgs
+  #actionlib_msgs
+  message_generation
+  shape_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,11 +53,23 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  DIRECTORY msg 
+  FILES
+  BoundingBox2Df.msg
+  BoundingBox2Di.msg
+  BoundingBox3D.msg
+  Keypoint2Df.msg
+  Keypoint2Di.msg
+  Keypoint3D.msg
+  Object.msg
+  ObjectsStamped.msg
+  Skeleton2D.msg
+  Skeleton3D.msg
+  RGBDSensors.msg
+  PlaneStamped.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -69,10 +86,13 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+    DEPENDENCIES
+    std_msgs
+    geometry_msgs
+    sensor_msgs
+    shape_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,10 +124,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES first_pkg
-#  CATKIN_DEPENDS husarion_ros rosbot_description roscpp rospy std_msgs
-#  DEPENDS system_lib
+    CATKIN_DEPENDS 
+    message_generation 
+    std_msgs 
+    geometry_msgs 
+    sensor_msgs
 )
 
 ###########
@@ -162,8 +183,9 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
    scripts/rotate.py
-   scripts/track_object.py
    scripts/velodyne_interpret.py
+   scripts/track_object.py
+    scripts/move_until_threshold.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch

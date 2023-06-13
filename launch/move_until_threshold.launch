@@ -1,0 +1,6 @@
+<launch>
+    <node name="move_until_threshold" pkg="first_pkg" type="move_until_threshold.py" output="screen" >
+        <param name="speed" value="0.5" />
+        <param name="duration" value="5" />
+    </node>
+</launch>
