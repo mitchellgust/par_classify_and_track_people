@@ -98,7 +98,7 @@ class Tracker:
     Initiate subscribers and begin tracking.
     """
     def execute(self):
-        self.track_id_subscriber = rospy.Subscriber("/tracker/id", String, self.track_object)
+        self.track_id_subscriber = rospy.Subscriber("/tracker_id", String, self.track_object)
         self.velodyne_marker_subscriber = rospy.Subscriber("/viz", Marker, self.track_velodyne_marker)
         self.zed_marker_subscriber = rospy.Subscriber("/visualization_marker", Marker, self.track_zed_marker)
 
