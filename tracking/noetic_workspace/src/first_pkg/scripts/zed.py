@@ -82,11 +82,19 @@ def publish_markers():
         marker_pub.publish(text_marker)
 
 def remove_marker(label_id):
+    # Remove the sphere marker
     marker = Marker()
     marker.header.frame_id = "map"
     marker.id = label_id
     marker.action = Marker.DELETE  # This action removes the marker
     marker_pub.publish(marker)
+
+    # Remove the text marker
+    text_marker = Marker()
+    text_marker.header.frame_id = "map"
+    text_marker.id = label_id + 1000  # Use the same ID that you used for the text marker
+    text_marker.action = Marker.DELETE
+    marker_pub.publish(text_marker)
 
 def listener():
     global marker_pub
