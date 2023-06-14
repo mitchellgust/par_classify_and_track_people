@@ -47,7 +47,10 @@ def callback(data):
     rotate_to_closest_marker()
 
 def rotate_to_closest_marker():
-    closest_marker_id = find_closest_marker()
+    
+    if closest_marker_id is None:
+        closest_marker_id = find_closest_marker()
+
     if closest_marker_id is not None:
         angle = compute_angle_to_marker(marker_positions[closest_marker_id])
 
