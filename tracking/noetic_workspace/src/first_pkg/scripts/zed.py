@@ -52,9 +52,9 @@ def publish_markers():
         marker.pose.position.y = position[1]
         marker.pose.position.z = position[2]
         marker.pose.orientation = Quaternion(0.0, 0.0, 0.0, 1.0)  # Initialize quaternion to identity orientation
-        marker.scale.x = 0.5  # Set the size of the marker
-        marker.scale.y = 0.5
-        marker.scale.z = 0.5
+        marker.scale.x = 0.2  # Set the size of the marker
+        marker.scale.y = 0.2
+        marker.scale.z = 0.2
         marker.color.a = 1.0  # Set the transparency of the marker
         marker.color.r = 1.0  # Set the color of the marker (e.g., red)
         marker.color.g = 0.0
@@ -62,6 +62,24 @@ def publish_markers():
 
         # Publish the marker
         marker_pub.publish(marker)
+
+        # Create a text marker for the label ID
+        text_marker = Marker()
+        text_marker.header.frame_id = "map"
+        text_marker.id = label_id + 1000  # Assign a unique marker ID based on the label ID, add 1000 to avoid ID clash
+        text_marker.type = Marker.TEXT_VIEW_FACING
+        text_marker.pose.position.x = position[0]
+        text_marker.pose.position.y = position[1]
+        text_marker.pose.position.z = position[2] + 0.2  # Offset to place the text above the corresponding sphere marker
+        text_marker.text = str(label_id)
+        text_marker.scale.z = 0.1  # Text size
+        text_marker.color.a = 1.0
+        text_marker.color.r = 1.0
+        text_marker.color.g = 1.0
+        text_marker.color.b = 1.0
+
+        # Publish the text marker
+        marker_pub.publish(text_marker)
 
 def remove_marker(label_id):
     marker = Marker()
