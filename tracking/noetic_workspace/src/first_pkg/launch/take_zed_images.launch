@@ -1,0 +1,4 @@
+<launch>
+    <node name="take_zed_images" pkg="take_zed_images" type="take_zed_images.py" output="screen" >
+    </node>
+</launch>
