@@ -38,7 +38,7 @@ class Tracker:
     """
     Issues commands to begin moving the bot based on the markers 
     published by the velodyne interpreter.
-    Usage: rostopic pub /tracker/id std_msgs/String "data: '0'" 
+    Usage: rostopic pub /tracker_id std_msgs/String "data: '0'" 
     """
     def track_object(self, object_id : String):
         
