@@ -63,6 +63,19 @@ def rotate_to_closest_marker():
 
         # Scale angle to limit maximum rotation speed
         cmd.angular.z = max(min(angle, MAX_ROT_SPEED), -MAX_ROT_SPEED)
+
+        # Determine distance to closest marker
+        distance = math.hypot(marker_positions[closest_marker_id][0], marker_positions[closest_marker_id][1])
+
+        # Make it stay a meter away from the marker
+        distance -= 1.0
+
+        # MAX Linear Speed
+        MAX_LIN_SPEED = 0.3  # meters/second
+
+        # Scale distance to limit maximum linear speed
+        cmd.linear.x = max(min(distance, MAX_LIN_SPEED), -MAX_LIN_SPEED)
+
         pub_drive.publish(cmd)
 
 def compute_angle_to_marker(position):
