@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="tracker" pkg="first_pkg" type="tracker.py" output="screen" >
+    </node>
+
+</launch>
