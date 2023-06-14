@@ -71,7 +71,7 @@ def rotate_to_closest_marker():
         distance -= 1.0
 
         # MAX Linear Speed
-        MAX_LIN_SPEED = 0.3  # meters/second
+        MAX_LIN_SPEED = 0.1  # meters/second
 
         # Scale distance to limit maximum linear speed
         cmd.linear.x = max(min(distance, MAX_LIN_SPEED), -MAX_LIN_SPEED)
