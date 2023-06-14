@@ -4,6 +4,9 @@ from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Quaternion, Twist
 import math
 
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+import actionlib
+
 # Define marker publisher as a global variable
 marker_pub = None
 closest_marker_id = None
@@ -15,6 +18,9 @@ marker_times = {}
 # Drive publisher
 pub_drive = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
+# Initialize MoveBase client
+move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+move_base_client.wait_for_server()
 
 def callback(data):
     global closest_marker_id
@@ -64,20 +70,26 @@ def rotate_to_closest_marker():
         # Scale angle to limit maximum rotation speed
         cmd.angular.z = max(min(angle, MAX_ROT_SPEED), -MAX_ROT_SPEED)
 
-        # Determine distance to closest marker
-        distance = math.hypot(marker_positions[closest_marker_id][0], marker_positions[closest_marker_id][1])
-
-        # Make it stay a meter away from the marker
-        distance -= 1.0
-
-        # MAX Linear Speed
-        MAX_LIN_SPEED = 0.1  # meters/second
-
-        # Scale distance to limit maximum linear speed
-        cmd.linear.x = max(min(distance, MAX_LIN_SPEED), -MAX_LIN_SPEED)
-
         pub_drive.publish(cmd)
 
+        # Move based to marker
+        move_to_marker(marker_positions[closest_marker_id])
+
+def move_to_marker(position):
+    goal = MoveBaseGoal()
+    goal.target_pose.header.frame_id = "map"
+    goal.target_pose.header.stamp = rospy.Time.now()
+
+    # Reduce position to be a meter away
+    position = [position[0] - 1.0, position[1] - 1.0]
+
+    goal.target_pose.pose.position.x = position[0]
+    goal.target_pose.pose.position.y = position[1]
+
+    move_base_client.send_goal(goal)
+    move_base_client.wait_for_result()
+    print("Moving to Person. WATCH OUT!!")
+    
 def compute_angle_to_marker(position):
     return math.atan2(position[1], position[0])
 
