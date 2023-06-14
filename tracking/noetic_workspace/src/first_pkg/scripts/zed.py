@@ -138,7 +138,8 @@ def remove_marker(label_id):
 
 def listener():
     global marker_pub
-
+    global closest_marker_id
+    
     rospy.init_node('listener', anonymous=True)
     rospy.Subscriber("zed2i/zed_node/obj_det/objects", ObjectsStamped, callback)
 
