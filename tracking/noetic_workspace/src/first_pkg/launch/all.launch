@@ -1,7 +1,7 @@
 <launch>
   <!-- <include file="$(find first_pkg)/launch/fixed_tf_broadcaster.launch" /> -->
-  <include file="$(find first_pkg)/launch/mapbuilder.launch" />
+  <include file="$(find first_pkg)/launch/octomap.launch" />
   <include file="$(find first_pkg)/launch/velodyne_interpret.launch" />
-  <include file="$(find first_pkg)/launch/test.launch" />
+  <include file="$(find first_pkg)/launch/gmapping.launch" />
   <include file="$(find first_pkg)/launch/zed.launch" />
 </launch>
