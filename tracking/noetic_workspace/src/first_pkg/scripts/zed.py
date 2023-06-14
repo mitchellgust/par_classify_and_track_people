@@ -17,6 +17,8 @@ pub_drive = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
 
 def callback(data):
+    global closest_marker_id
+
     current_time = rospy.get_rostime()
     updated_markers = []
 
@@ -29,9 +31,6 @@ def callback(data):
         tracking_state = obj.tracking_state
 
         if label == "Person" and confidence >= 60.0:
-            # rospy.loginfo("Object: Label=%s, Label ID=%d, Sublabel=%s, Confidence=%.2f, Position=%.2f, %.2f, %.2f, tracking=%d",
-            #               label, label_id, sublabel, confidence, position[0], position[1], position[2], tracking_state)
-
             # Update the marker position for the current object
             marker_positions[label_id] = position
             marker_times[label_id] = current_time
@@ -49,9 +48,9 @@ def callback(data):
     rotate_to_closest_marker()
 
 def rotate_to_closest_marker():
+    global closest_marker_id
 
-
-    if closest_marker_id is None:
+    if closest_marker_id is None or closest_marker_id not in marker_positions:
         closest_marker_id = find_closest_marker()
 
     if closest_marker_id is not None:
@@ -138,7 +137,6 @@ def remove_marker(label_id):
 
 def listener():
     global marker_pub
-    global closest_marker_id
     
     rospy.init_node('listener', anonymous=True)
     rospy.Subscriber("zed2i/zed_node/obj_det/objects", ObjectsStamped, callback)
