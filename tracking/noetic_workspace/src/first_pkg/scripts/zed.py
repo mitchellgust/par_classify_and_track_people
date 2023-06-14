@@ -6,6 +6,7 @@ import math
 
 # Define marker publisher as a global variable
 marker_pub = None
+closest_marker_id = None
 # Dictionary to store the marker positions for each label ID
 marker_positions = {}
 # Keep track of the last update time for each marker
@@ -13,6 +14,7 @@ marker_times = {}
 
 # Drive publisher
 pub_drive = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+
 
 def callback(data):
     current_time = rospy.get_rostime()
@@ -47,7 +49,8 @@ def callback(data):
     rotate_to_closest_marker()
 
 def rotate_to_closest_marker():
-    
+
+
     if closest_marker_id is None:
         closest_marker_id = find_closest_marker()
 
