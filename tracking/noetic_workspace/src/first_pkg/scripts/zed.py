@@ -15,12 +15,7 @@ marker_positions = {}
 # Keep track of the last update time for each marker
 marker_times = {}
 
-# Drive publisher
 pub_drive = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
-
-# Initialize MoveBase client
-move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-move_base_client.wait_for_server()
 
 def callback(data):
     global closest_marker_id
@@ -76,6 +71,8 @@ def rotate_to_closest_marker():
         move_to_marker(marker_positions[closest_marker_id])
 
 def move_to_marker(position):
+    global move_base_client
+
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
@@ -162,8 +159,15 @@ def remove_marker(label_id):
 
 def listener():
     global marker_pub
+
+    print("Starting ZED Marker Maker")
     
     rospy.init_node('listener', anonymous=True)
+
+    # Initialize MoveBase client
+    move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+    move_base_client.wait_for_server()
+    
     rospy.Subscriber("zed2i/zed_node/obj_det/objects", ObjectsStamped, callback)
 
     marker_pub = rospy.Publisher("visualization_marker", Marker, queue_size=10)
