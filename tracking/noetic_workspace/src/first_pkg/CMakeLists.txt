@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   tf2_msgs
   geometry_msgs
-  husarion_ros
   rosbot_description
 )
 
