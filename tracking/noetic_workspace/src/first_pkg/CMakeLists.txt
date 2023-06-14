@@ -167,7 +167,7 @@ catkin_install_python(PROGRAMS
    scripts/velodyne_interpret.py
    scripts/fixed_tf_broadcaster.py
    scripts/zed.py
-   scripts/track.py
+   scripts/tracker.py
    scripts/take_zed_images.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
