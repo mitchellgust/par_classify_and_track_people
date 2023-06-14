@@ -17,6 +17,7 @@ RUN apt update && \
     apt install -y ros-noetic-pcl-ros && \
     apt install -y ros-noetic-octomap-server && \
     apt install -y ros-noetic-gmapping && \
+    apt install -y ros-noetic-navigation && \
     apt install -y python3-numpy && \
     apt install -y libegl1 && \
     apt install -y libgl1 && \
