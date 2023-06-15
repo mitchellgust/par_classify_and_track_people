@@ -7,6 +7,7 @@ from std_msgs.msg import (
 from visualization_msgs.msg import MarkerArray
 from visualization_msgs.msg import Marker
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+from geometry_msgs.msg import PoseStamped
 
 import actionlib
 
@@ -27,10 +28,6 @@ class Tracker:
 
         # Track id.
         self.track_id_velodyne = -1
-
-        # Move command.
-        self.move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-        self.move_base_client.wait_for_server()
 
         # Output.
         self.out_publisher = rospy.Publisher('tracking_out', String, queue_size=10)
@@ -91,20 +88,34 @@ class Tracker:
     Publish a goal to move the bot to.
     """
     def move_bot(self, marker : Marker):
-        goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = marker.header.frame_id
-        goal.target_pose.header.stamp = marker.header.stamp
+        # goal = MoveBaseGoal()
+        # goal.target_pose.header.frame_id = marker.header.frame_id
+        # goal.target_pose.header.stamp = marker.header.stamp
 
-        # Reduce position to be a meter away
+        # # Reduce position to be a meter away
         position = [marker.pose.position.x - 1.0,marker.pose.position.y - 1.0]
 
         self.out_publisher.publish("x: " + str(marker.pose.position.x) + " y: " + str(marker.pose.position.y))
 
-        goal.target_pose.pose.position.x = position[0]
-        goal.target_pose.pose.position.y = position[1]
+        # goal.target_pose.pose.position.x = position[0]
+        # goal.target_pose.pose.position.y = position[1]
 
-        self.move_base_client.send_goal(goal)
-        self.move_base_client.wait_for_result()
+        # self.move_base_client.send_goal(goal)
+        # self.move_base_client.wait_for_result()
+
+        pub_gotopose = rospy.Publisher('/move_base_simple/goal', PoseStamped)
+        # map_frame = rospy.get_param("~map_frame", 'map')
+        # robot_frame = rospy.get_param("~robot_frame", '/base_link')
+
+        target_pose = PoseStamped()
+        target_pose.header.frame_id = marker.header.stamp
+        target_pose.header.stamp = marker.header.stamp
+        target_pose.pose.position.x = position[0]
+        target_pose.pose.position.y = position[1]
+        target_pose.pose.orientation.w = 1
+
+        rate = rospy.Rate(1)
+
 
     """
     Initiate subscribers and begin tracking.
