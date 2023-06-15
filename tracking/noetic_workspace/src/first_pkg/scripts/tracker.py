@@ -20,9 +20,6 @@ class Tracker:
         self.velodyne_track_id_subscriber = None
         self.velodyne_marker_subscriber = None
         self.zed_marker_subscriber = None
-        
-        # Publishers.
-        self.move_base_publisher = None
 
         # Gates.
         self.track_velodyne_object = False
@@ -32,8 +29,11 @@ class Tracker:
         self.track_id_velodyne = -1
 
         # Move command.
-        self.move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-        self.move_base_client.wait_for_server()
+        # self.move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+        # self.move_base_client.wait_for_server()
+
+        # Output.
+        self.out_publisher = rospy.Publisher('tracking_out', String, queue_size=10)
 
     """
     Issues commands to begin moving the bot based on the markers 
@@ -63,6 +63,8 @@ class Tracker:
             # Check if array contains marker index.
             if len(markers) > self.track_id_velodyne:
                 
+                self.out_publisher.publish("Track Velodyne")
+
                 self.move_bot(markers.marker[self.track_id_velodyne])
                 self.track_velodyne_marker = False
                 self.track_zed_object = True
