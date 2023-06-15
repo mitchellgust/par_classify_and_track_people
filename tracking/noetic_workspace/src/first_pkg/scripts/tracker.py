@@ -31,6 +31,7 @@ class Tracker:
 
         # Output.
         self.out_publisher = rospy.Publisher('tracking_out', String, queue_size=10)
+        self.pub_drive = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
     """
     Issues commands to begin moving the bot based on the markers 
@@ -70,7 +71,7 @@ class Tracker:
                     
                     self.out_publisher.publish("Track Velodyne")
 
-                    self.move_bot(markers[self.track_id_velodyne])
+                    self.rotate_to_closest_marker(markers[self.track_id_velodyne])
                     self.track_velodyne_marker = False
                     self.track_zed_object = True
 
@@ -83,6 +84,38 @@ class Tracker:
     """
     def track_zed_marker(self, marker : Marker):
         pass
+
+    def rotate_to_closest_marker(self, marker : Marker):
+    
+
+        if marker is not None:
+            angle = compute_angle_to_marker()
+
+            # Now you can use this angle to drive your robot
+            cmd = Twist()
+            
+            # Define maximum rotation speed
+            MAX_ROT_SPEED = 1.0  # radians/second
+            position = [marker.pose.position.x - 1.0,marker.pose.position.y - 1.0]
+            
+            angle = math.atan2(position[1], position[0])
+
+            # Scale angle to limit maximum rotation speed
+            cmd.angular.z = max(min(angle, MAX_ROT_SPEED), -MAX_ROT_SPEED)
+
+            # # Determine distance to closest marker
+            # distance = math.hypot(marker_positions[closest_marker_id][0], marker_positions[closest_marker_id][1])
+
+            # # Make it stay a meter away from the marker
+            # distance -= 1.0
+
+            # # MAX Linear Speed
+            # MAX_LIN_SPEED = 0.1  # meters/second
+
+            # # Scale distance to limit maximum linear speed
+            # cmd.linear.x = max(min(distance, MAX_LIN_SPEED), -MAX_LIN_SPEED)
+
+            pub_drive.publish(cmd)
 
     """
     Publish a goal to move the bot to.
