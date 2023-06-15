@@ -98,7 +98,7 @@ class Tracker:
         # Reduce position to be a meter away
         position = [marker.pose.position.x - 1.0,marker.pose.position.y - 1.0]
 
-         self.out_publisher.publish("x: " + str(marker.pose.position.x) + " y: " + str(marker.pose.position.y))
+        self.out_publisher.publish("x: " + str(marker.pose.position.x) + " y: " + str(marker.pose.position.y))
 
         goal.target_pose.pose.position.x = position[0]
         goal.target_pose.pose.position.y = position[1]
