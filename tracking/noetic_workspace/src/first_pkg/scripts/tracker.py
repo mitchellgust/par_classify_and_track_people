@@ -100,6 +100,7 @@ class Tracker:
             position = [marker.pose.position.x - 1.0,marker.pose.position.y - 1.0]
             
             angle = math.atan2(position[1], position[0])
+            angle += math.pi
 
             # Scale angle to limit maximum rotation speed
             cmd.angular.z = max(min(angle, MAX_ROT_SPEED), -MAX_ROT_SPEED)
