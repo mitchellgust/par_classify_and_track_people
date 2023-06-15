@@ -45,6 +45,8 @@ class Tracker:
         # Convert object_id to int. 
         self.track_id_velodyne = int(object_id.data)
 
+        self.out_publisher.publish(object_id)
+
         # Begin tracking via velodyne.
         self.track_velodyne_object = True
 
@@ -54,6 +56,9 @@ class Tracker:
     by the marker array.
     """
     def track_velodyne_marker(self, markers : MarkerArray):
+
+        self.out_publisher.publish("Track velodyne marker hit with marker len" + str(len(markers)))
+
         # Figure out when to run tracking.
         if self.track_velodyne_marker and self.track_id_velodyne > -1:
             
