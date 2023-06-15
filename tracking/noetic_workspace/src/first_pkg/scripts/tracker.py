@@ -104,11 +104,11 @@ class Tracker:
         # self.move_base_client.wait_for_result()
 
         pub_gotopose = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
-        # map_frame = rospy.get_param("~map_frame", 'map')
-        # robot_frame = rospy.get_param("~robot_frame", '/base_link')
+        map_frame = rospy.get_param("~map_frame", 'map')
+        robot_frame = rospy.get_param("~robot_frame", '/base_link')
 
         target_pose = PoseStamped()
-        target_pose.header.frame_id = marker.header.stamp
+        target_pose.header.frame_id = map_frame
         target_pose.header.stamp = marker.header.stamp
         target_pose.pose.position.x = position[0]
         target_pose.pose.position.y = position[1]
