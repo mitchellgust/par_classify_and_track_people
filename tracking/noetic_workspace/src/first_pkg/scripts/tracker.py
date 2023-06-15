@@ -116,7 +116,7 @@ class Tracker:
             # # Scale distance to limit maximum linear speed
             # cmd.linear.x = max(min(distance, MAX_LIN_SPEED), -MAX_LIN_SPEED)
 
-            pub_drive.publish(cmd)
+            self.pub_drive.publish(cmd)
 
     """
     Publish a goal to move the bot to.
