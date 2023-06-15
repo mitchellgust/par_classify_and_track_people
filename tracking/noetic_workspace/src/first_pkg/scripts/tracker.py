@@ -55,27 +55,30 @@ class Tracker:
     Starts issuing move commands to a designated object id based on ids designated
     by the marker array.
     """
-    def track_velodyne_marker(self, markers : MarkerArray):
+    def track_velodyne_marker(self, marker_array : MarkerArray):
 
-        self.out_publisher.publish("Track velodyne marker hit with marker len" + str(len(markers)))
+        if marker_array is not None:
+            markers = marker_array.markers
 
-        # Figure out when to run tracking.
-        if self.track_velodyne_marker and self.track_id_velodyne > -1:
-            
-            # Disable tracking.
-            self.track_velodyne_marker = False
+            self.out_publisher.publish("Track velodyne marker hit with marker len" + str(len(markers)))
 
-            # Check if array contains marker index.
-            if len(markers) > self.track_id_velodyne:
+            # Figure out when to run tracking.
+            if self.track_velodyne_marker and self.track_id_velodyne > -1:
                 
-                self.out_publisher.publish("Track Velodyne")
-
-                self.move_bot(markers.marker[self.track_id_velodyne])
+                # Disable tracking.
                 self.track_velodyne_marker = False
-                self.track_zed_object = True
 
-            else:
-                self.track_velodyne_marker = True
+                # Check if array contains marker index.
+                if len(markers) > self.track_id_velodyne:
+                    
+                    self.out_publisher.publish("Track Velodyne")
+
+                    self.move_bot(markers.marker[self.track_id_velodyne])
+                    self.track_velodyne_marker = False
+                    self.track_zed_object = True
+
+                else:
+                    self.track_velodyne_marker = True
 
 
     """
