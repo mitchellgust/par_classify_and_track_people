@@ -70,7 +70,7 @@ class Tracker:
                     
                     self.out_publisher.publish("Track Velodyne")
 
-                    self.move_bot(markers.marker[self.track_id_velodyne])
+                    self.move_bot(markers[self.track_id_velodyne])
                     self.track_velodyne_marker = False
                     self.track_zed_object = True
 
