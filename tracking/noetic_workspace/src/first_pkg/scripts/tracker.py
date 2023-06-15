@@ -45,6 +45,8 @@ class Tracker:
         # Convert object_id to int. 
         self.track_id_velodyne = int(object_id.data)
 
+        self.out_publisher.publish(object_id)
+
         # Begin tracking via velodyne.
         self.track_velodyne_object = True
 
@@ -54,6 +56,9 @@ class Tracker:
     by the marker array.
     """
     def track_velodyne_marker(self, markers : MarkerArray):
+
+        self.out_publisher.publish("Track velodyne marker hit with marker len" + str(len(markers)))
+
         # Figure out when to run tracking.
         if self.track_velodyne_marker and self.track_id_velodyne > -1:
             
@@ -101,7 +106,7 @@ class Tracker:
     """
     def execute(self):
         self.track_id_subscriber = rospy.Subscriber("/tracker_id", String, self.track_object)
-        self.velodyne_marker_subscriber = rospy.Subscriber("/viz", Marker, self.track_velodyne_marker)
+        self.velodyne_marker_subscriber = rospy.Subscriber("/viz", MarkerArray, self.track_velodyne_marker)
         self.zed_marker_subscriber = rospy.Subscriber("/visualization_marker", Marker, self.track_zed_marker)
 
         rospy.spin()
