@@ -1,8 +1,8 @@
 <launch>
   <!-- <include file="$(find first_pkg)/launch/fixed_tf_broadcaster.launch" /> -->
-  <!-- <include file="$(find first_pkg)/launch/octomap.launch" />
+  <include file="$(find first_pkg)/launch/octomap.launch" />
   <include file="$(find first_pkg)/launch/velodyne_interpret.launch" />
   <include file="$(find first_pkg)/launch/gmapping.launch" />
-  <include file="$(find first_pkg)/launch/zed.launch" /> -->
+  <include file="$(find first_pkg)/launch/zed.launch" />
   <include file="$(find first_pkg)/launch/tracker.launch" />
 </launch>
