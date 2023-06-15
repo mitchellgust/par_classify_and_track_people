@@ -103,7 +103,7 @@ class Tracker:
         # self.move_base_client.send_goal(goal)
         # self.move_base_client.wait_for_result()
 
-        pub_gotopose = rospy.Publisher('/move_base_simple/goal', PoseStamped)
+        pub_gotopose = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
         # map_frame = rospy.get_param("~map_frame", 'map')
         # robot_frame = rospy.get_param("~robot_frame", '/base_link')
 
@@ -113,6 +113,10 @@ class Tracker:
         target_pose.pose.position.x = position[0]
         target_pose.pose.position.y = position[1]
         target_pose.pose.orientation.w = 1
+
+        pub_gotopose.publish(target_pose)
+
+        self.out_publisher.publish("done")
 
         rate = rospy.Rate(1)
 
