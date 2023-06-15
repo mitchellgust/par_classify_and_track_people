@@ -21,7 +21,8 @@ RUN apt update && \
     apt install -y python3-numpy && \
     apt install -y libegl1 && \
     apt install -y libgl1 && \
-    apt install -y libgomp1 \
+    apt install -y libgomp1 && \
+    apt install -y python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Open3D
