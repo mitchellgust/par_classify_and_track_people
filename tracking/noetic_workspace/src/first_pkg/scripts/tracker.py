@@ -90,7 +90,6 @@ class Tracker:
     
 
         if marker is not None:
-            angle = compute_angle_to_marker()
 
             # Now you can use this angle to drive your robot
             cmd = Twist()
