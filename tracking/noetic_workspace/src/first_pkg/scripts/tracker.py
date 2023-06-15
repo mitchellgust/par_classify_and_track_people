@@ -29,8 +29,8 @@ class Tracker:
         self.track_id_velodyne = -1
 
         # Move command.
-        # self.move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-        # self.move_base_client.wait_for_server()
+        self.move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+        self.move_base_client.wait_for_server()
 
         # Output.
         self.out_publisher = rospy.Publisher('tracking_out', String, queue_size=10)
@@ -98,11 +98,13 @@ class Tracker:
         # Reduce position to be a meter away
         position = [marker.pose.position.x - 1.0,marker.pose.position.y - 1.0]
 
+         self.out_publisher.publish("x: " + str(marker.pose.position.x) + " y: " + str(marker.pose.position.y))
+
         goal.target_pose.pose.position.x = position[0]
         goal.target_pose.pose.position.y = position[1]
 
-        move_base_client.send_goal(goal)
-        move_base_client.wait_for_result()
+        self.move_base_client.send_goal(goal)
+        self.move_base_client.wait_for_result()
 
     """
     Initiate subscribers and begin tracking.
