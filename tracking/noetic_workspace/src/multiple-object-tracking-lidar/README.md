@@ -1,3 +1,13 @@
+# PAR-A3-DOT2 Notes
+
+This is unedited code - available from https://github.com/praveen-palanisamy/multiple-object-tracking-lidar
+
+Only placed in our Git Repository for convenience. Our code found in first_pkg produces a filter_cloud topic from our PointCloud2 data that is used as input for this package.
+
+The README is the same from this point onwards.
+
+----
+
 # Multiple objects detection, tracking and classification from LIDAR scans/point-clouds
 
 
