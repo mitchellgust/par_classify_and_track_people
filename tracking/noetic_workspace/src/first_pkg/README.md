@@ -1,4 +1,26 @@
-# Velodyne
+# Implementation Overview
+`velodyne_interpret.py` filteres noise in PointCloud2 data
+
+1. Crops point cloud using a bounding box
+2. Applies radius outlier removal for points that are further away than neighbours
+3. Publishes /filtered_cloud
+
+which is then read by an external module, 'Multiple-object-tracking-lidar' (https://github.com/praveen-palanisamy/multiple-object-tracking-lidar)
+
+`fixed_tf_broadcaster.py`
+
+`zed.py` Reads the ZED Object Detection Data and moves to the owner (the closest tracked person on program launch). 
+
+1. Reads ZED ObjectsStamped message data, supplied from the ZED 2 Object Detection Model. 
+2. Filters the objects based on whether they are labelled a 'Person' and whether they have a high confidence level. 
+3. Creates markers using the x,y position of the filtered objects.
+2. Removes Markers that have not been updated for 5 seconds. 
+3. Stores the ID of a tracked object/person - tracked person is initialised by selecting the object closest in distance.
+4. Utilises velocity controls to move the robot towards the target at a safe pace.
+
+`tracker.py` is a work in progress file that attempts to use move based, rather than utilising velocity controls. If complete, would allow the use of Velodyne data to use moved based to the detected objects whilst avoiding obstacles.
+
+`take_zed_images.py` is a work in progress file that attempts to capture images using the ZED 2i camera and cropping them based on the bounding box detected using the ZED Object Detection Model. If complete, this would allow the user to create image training data for detecting specific inidividuals by apperance.
 
 # Setting up Gazebo - 
 
