@@ -1,3 +1,10 @@
+# PAR-A3-DOT2 Notes
+
+This is unedited code - available from https://github.com/stereolabs/zed-ros-interfaces
+Only placed in our Git Repository for convenience - This directory is needed for our docker image as its message types are required to read the ZED Object Recognition data.
+
+The README is the same from this point onwards.
+
 ![](./images/Picto+STEREOLABS_Black.jpg)
 
 # Stereolabs ZED Camera - ROS Interfaces
