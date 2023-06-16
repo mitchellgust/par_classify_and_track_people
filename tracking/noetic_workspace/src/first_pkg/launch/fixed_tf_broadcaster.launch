@@ -1,4 +1,0 @@
-<launch>
-    <node pkg="first_pkg" type="fixed_tf_broadcaster.py"
-          name="broadcaster_fixed" output="screen"/>
-</launch>

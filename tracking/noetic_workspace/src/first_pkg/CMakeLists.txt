@@ -164,7 +164,6 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
    scripts/velodyne_interpret.py
-   scripts/fixed_tf_broadcaster.py
    scripts/zed.py
    scripts/tracker.py
    scripts/take_zed_images.py
