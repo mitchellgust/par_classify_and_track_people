@@ -7,7 +7,7 @@ Using Husarion Panther to
 ![](https://bitbucket.org/rmit-alec-2023/par-a3-dot2/raw/39e8c017408327c2234270093a736adf77fb0834/wiki-images/VelodyneObjectTracking.gif)  |  ![](https://bitbucket.org/rmit-alec-2023/par-a3-dot2/raw/d74d4ae1372f336ca7a2a183416e8720e5cd28c2/wiki-images/ZEDPersonTracking.gif) | ![](https://bitbucket.org/rmit-alec-2023/par-a3-dot2/raw/d74d4ae1372f336ca7a2a183416e8720e5cd28c2/wiki-images/VelocityControlToTarget.gif)
 
 
-* [1] - Demonstrates Gradually Gaining Confidence in Object Detection and Maintains Object Tracking despite Overlapping Clusters. (Resource - Multiple Object Tracking Lidar: https://github.com/praveen-palanisamy/multiple-object-tracking-lidar)
+* [1] - Demonstrates Gradually Gaining Confidence in Object Detection and then Maintains Object Tracking despite Overlapping Clusters. (Resource - Multiple Object Tracking Lidar: https://github.com/praveen-palanisamy/multiple-object-tracking-lidar)
 * [2] - Detecting People using ZED2 3D Object Detection using the Position of Objects labelled ('Person') over a Defined Detection Confidence threshold. (Resource - Object Detection Model: https://www.stereolabs.com/docs/ros/object-detection/)
 * [3] - Target Person is defined as the closest person detected on program start, and velocity control commands ensure target stays in focus of camera and maintains a safe distance away.
 
