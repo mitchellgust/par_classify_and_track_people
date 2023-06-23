@@ -4,7 +4,7 @@ Using Husarion Panther to
 
 [1] Detect Objects using Filtered PointCloud2 |  [2] Detect and Track People using ZED 2i |[3] Use Velocity Control to Move to Target Person
 :---------------------------:|:-------------------------:|:-------------------------:
-![](https://bitbucket.org/rmit-alec-2023/par-a3-dot2/raw/39e8c017408327c2234270093a736adf77fb0834/wiki-images/VelodyneObjectTracking.gif)  |  ![](https://bitbucket.org/rmit-alec-2023/par-a3-dot2/raw/d74d4ae1372f336ca7a2a183416e8720e5cd28c2/wiki-images/ZEDPersonTracking.gif) | ![](https://bitbucket.org/rmit-alec-2023/par-a3-dot2/raw/d74d4ae1372f336ca7a2a183416e8720e5cd28c2/wiki-images/VelocityControlToTarget.gif)
+![](wiki-images/VelodyneObjectTracking.gif)  |  ![](wiki-images/ZEDPersonTracking.gif) | ![](wiki-images/VelocityControlToTarget.gif)
 
 
 * [1] - Demonstrates Gradually Gaining Confidence in Object Detection and then Maintains Object Tracking despite Overlapping Clusters. (Resource - Multiple Object Tracking Lidar: https://github.com/praveen-palanisamy/multiple-object-tracking-lidar)
