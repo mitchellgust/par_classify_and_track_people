@@ -18,13 +18,21 @@ Using Husarion Panther to
 * Mitchell Gust (s3782095)
 * Utkarsh Agarwal (s3932349)
 
+# Usage of Pre-existing Packages
+
+**zed-ros-interfaces**
+- https://github.com/stereolabs/zed-ros-interfaces
+
+**multiple-object-tracking-lidar**
+- https://github.com/praveen-palanisamy/multiple-object-tracking-lidar
+
 # Tim's Panther Development Instructions 
 
 1. Stop all containers on dot 3 before shut down
-1. Ensure the arm is off before shut down
-1. Never run the bot with the power cable connected
-1. Wait for full shutdown and restart
-1. Software E-Lock can be disabled through **10.15.20.2:8000**
+2. Ensure the arm is off before shut down
+3. Never run the bot with the power cable connected
+4. Wait for full shutdown and restart
+5. Software E-Lock can be disabled through **10.15.20.2:8000**
 
 # Questions - 
 
